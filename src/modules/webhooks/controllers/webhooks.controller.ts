@@ -11,6 +11,11 @@ export class WebhooksController {
   ) {}
   @Post('whatsapp')
   async whatsappHandler(@Req() request: any, @Res() res: Response) {
+    if (process.env.NODE_ENV !== 'production') {
+      if (request.query.dev_token !== process.env.DEV_TWILIO_TOKEN) {
+        return res.status(401).send('Invalid dev token');
+      }
+    }
     const message = this.twilioAdapter.normalize(request.body);
     const response = await this.webhooksService.whatsappHandlerMessage(message);
     console.log('response', response);

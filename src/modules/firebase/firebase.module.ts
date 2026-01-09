@@ -18,11 +18,14 @@ import { SessionRepository } from './repositories/Session.repository';
     {
       provide: FIREBASE_ADMIN,
       useFactory: (configService: ConfigService) => {
-        const serviceAccount = configService.get<string>(
-          'FIREBASE_SERVICE_ACCOUNT',
-        );
+        // const serviceAccount = configService.get<string>(
+        //   'FIREBASE_SERVICE_ACCOUNT',
+        // );
+        // return admin.initializeApp({
+        //   credential: admin.credential.cert(serviceAccount as string),
+        // });
         return admin.initializeApp({
-          credential: admin.credential.cert(serviceAccount as string),
+          credential: admin.credential.applicationDefault(),
         });
       },
       inject: [ConfigService],

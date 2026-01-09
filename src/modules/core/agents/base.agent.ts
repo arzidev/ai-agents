@@ -61,7 +61,6 @@ export abstract class BaseAgent implements AiAgent {
     message: string,
   ): Promise<string> {
     const handlers = this.getHandlers(agent);
-    console.log('aaaa', session.currentIntent);
     return (
       handlers[session.currentIntent]?.() ?? this.manageUnknownResponse(message)
     );
