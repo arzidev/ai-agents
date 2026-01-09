@@ -39,7 +39,10 @@ export class SessionRepository {
     });
   }
 
-  async createSession(userId: string, currentIntent: string) {
+  async createSession(
+    userId: string,
+    currentIntent: string,
+  ): Promise<Session | undefined> {
     const dataToSave: Session = {
       userId: userId,
       currentIntent: currentIntent,

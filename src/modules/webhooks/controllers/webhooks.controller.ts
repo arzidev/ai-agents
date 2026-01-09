@@ -13,6 +13,7 @@ export class WebhooksController {
   async whatsappHandler(@Req() request: any, @Res() res: Response) {
     const message = this.twilioAdapter.normalize(request.body);
     const response = await this.webhooksService.whatsappHandlerMessage(message);
+    console.log('response', response);
     const twiml = `
       <?xml version="1.0" encoding="UTF-8"?>
       <Response>

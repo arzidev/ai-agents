@@ -8,6 +8,7 @@ import { FirestoreService } from './modules/firebase/services/firestore.service'
 import * as admin from 'firebase-admin';
 import { ConfigModule } from '@nestjs/config';
 import { CoreModule } from './modules/core/core.module';
+import { BusinessModule } from './modules/business/business.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { CoreModule } from './modules/core/core.module';
     LlmModule,
     FirebaseModule,
     CoreModule,
+    BusinessModule,
   ],
   controllers: [AppController],
   providers: [AppService, FirestoreService],
