@@ -8,7 +8,10 @@ export class WebhooksService {
   ) {}
 
   async whatsappHandlerMessage(message: any) {
-    // return this.flowManager.initFlow(message.from, message.text);
+    return this.conversationOrchestrator.handleMessage(
+      message.from,
+      message.text,
+    );
   }
 
   async webHandlerMessage(userId: string, message: string) {
