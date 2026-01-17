@@ -21,12 +21,12 @@ import { SessionRepository } from './repositories/Session.repository';
         const serviceAccount = configService.get<string>(
           'FIREBASE_SERVICE_ACCOUNT',
         );
-        return admin.initializeApp({
-          credential: admin.credential.cert(serviceAccount as string),
-        });
         // return admin.initializeApp({
-        //   credential: admin.credential.applicationDefault(),
+        //   credential: admin.credential.cert(serviceAccount as string),
         // });
+        return admin.initializeApp({
+          credential: admin.credential.applicationDefault(),
+        });
       },
       inject: [ConfigService],
     },
