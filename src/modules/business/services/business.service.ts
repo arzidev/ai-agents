@@ -1,37 +1,32 @@
 import { Injectable } from '@nestjs/common';
-import {
-  BUSINESS_DATA,
-  INTENT_SELECTOR_PROMPT,
-  UNKNOWN_PROMPT,
-} from '../config/business.config';
+import businessConfig from '../config/agentsConfig.json';
 
 @Injectable()
 export class BusinessService {
-  async getInfo() {
-    return BUSINESS_DATA.INFO;
+  getBusinessConfig(businessId: string) {
+    return businessConfig;
+  }
+  getAgentConfig() {
+    return businessConfig;
   }
 
-  async getDescription() {
-    return BUSINESS_DATA.DESCRIPTION;
+  getAgentIntents() {
+    return businessConfig.intents;
   }
 
-  async getIntents() {
-    return BUSINESS_DATA.INTENTS;
+  getAgentFlows() {
+    return businessConfig.flows;
   }
 
-  async getTextTemplates() {
-    return BUSINESS_DATA.TEXT_TEMPLATES;
+  getAgentPrompts() {
+    return businessConfig.prompts;
   }
 
-  getIntentSelectorPrompt(): string {
-    return INTENT_SELECTOR_PROMPT;
+  getAgentType() {
+    return businessConfig.agentType;
   }
 
-  getUnknonwPrompt(): string {
-    return UNKNOWN_PROMPT;
-  }
-
-  getIntentsLists(): { intent: string; agent: string }[] {
-    return BUSINESS_DATA.INTENTS;
+  getAgentName() {
+    return businessConfig.name;
   }
 }

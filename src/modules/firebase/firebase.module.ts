@@ -1,4 +1,4 @@
-import { Module, Session } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import * as admin from 'firebase-admin';
 import {
   BUSINESS_REPOSITORY,
@@ -18,15 +18,15 @@ import { SessionRepository } from './repositories/Session.repository';
     {
       provide: FIREBASE_ADMIN,
       useFactory: (configService: ConfigService) => {
-        // const serviceAccount = configService.get<string>(
-        //   'FIREBASE_SERVICE_ACCOUNT',
-        // );
-        // return admin.initializeApp({
-        //   credential: admin.credential.cert(serviceAccount as string),
-        // });
+        const serviceAccount = configService.get<string>(
+          'FIREBASE_SERVICE_ACCOUNT',
+        );
         return admin.initializeApp({
-          credential: admin.credential.applicationDefault(),
+          credential: admin.credential.cert(serviceAccount as string),
         });
+        // return admin.initializeApp({
+        //   credential: admin.credential.applicationDefault(),
+        // });
       },
       inject: [ConfigService],
     },

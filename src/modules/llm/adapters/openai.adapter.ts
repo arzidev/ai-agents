@@ -15,7 +15,6 @@ export class OpenaiAdapter implements LlmPort {
       model: 'gpt-3.5-turbo',
       messages,
     });
-    console.log('OpenAI response:', response);
 
     return response.choices[0]?.message?.content ?? 'sin respuesta';
   }

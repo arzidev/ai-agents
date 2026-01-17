@@ -5,7 +5,7 @@ import type { LlmPort } from '../ports/llm.port';
 export class LlmService {
   constructor(@Inject('LlmAdapter') private readonly openAiAdapter: LlmPort) {}
 
-  async chat(messages: any[]): Promise<string> {
+  async chat(messages: any[]): Promise<any> {
     return await this.openAiAdapter.chat(messages);
   }
 }

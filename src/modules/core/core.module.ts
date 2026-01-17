@@ -3,50 +3,33 @@ import { LlmModule } from '../llm/llm.module';
 import { FirebaseModule } from '../firebase/firebase.module';
 import { IntentDetectorService } from './services/intent-detector.service';
 import { SessionService } from './services/session.service';
-import { SchedulerAgent } from './agents/scheduler.agent';
-import { FlowManagerService } from './services/flow-manager.service';
 import { AgentRegistry } from './agents/agent-registry';
-import { AI_AGENTS, SYSTEM_INTENTS } from '../shared/constants';
 import { BusinessModule } from '../business/business.module';
-import { ServiceAgent } from './agents/service.agent';
-import { SupportAgent } from './agents/support.agent';
-import { ProductAgent } from './agents/product.agent';
-import { BaseAgent } from './agents/base.agent';
+import { ConversationOrchestrator } from './services/conversationOrchestrator';
+import { DefaultAgent } from './agents/default.agent';
+import { AgentFactory } from './agents/agent.factory';
+import { BusinessService } from '../business/services/business.service';
+import { ContextBuilder } from './context/context-builder';
 
 @Module({
   imports: [LlmModule, FirebaseModule, BusinessModule],
   providers: [
     IntentDetectorService,
     SessionService,
-    FlowManagerService,
+    ConversationOrchestrator,
     AgentRegistry,
-    SchedulerAgent,
-    ServiceAgent,
-    SupportAgent,
-    ProductAgent,
+    AgentFactory,
+    DefaultAgent,
+    ContextBuilder,
   ],
-  exports: [SchedulerAgent, FlowManagerService],
+  exports: [ConversationOrchestrator],
 })
 export class CoreModule {
   constructor(
     registry: AgentRegistry,
-    productAgent: ProductAgent,
-    schedulerAgent: SchedulerAgent,
-    serviceAgent: ServiceAgent,
-    supportAgent: SupportAgent,
+    private readonly businessService: BusinessService,
   ) {
-    const agents: { name: string; instance: BaseAgent }[] = [
-      { name: AI_AGENTS.PRODUCT, instance: productAgent },
-      { name: AI_AGENTS.SCHEDULER, instance: schedulerAgent },
-      { name: AI_AGENTS.SERVICE, instance: serviceAgent },
-      { name: AI_AGENTS.SUPPORT, instance: supportAgent },
-    ];
-    agents.forEach((agent: { name: string; instance: BaseAgent }) => {
-      const handlers = agent.instance.getHandlers(agent.name);
-      Object.keys(handlers).forEach((intent) => {
-        registry.register(agent.name, intent, agent.instance);
-      });
-    });
-    registry.register(AI_AGENTS.SUPPORT, SYSTEM_INTENTS.UNKNOWN, supportAgent);
+    const agent = this.businessService.getAgentType();
+    registry.register(agent, DefaultAgent);
   }
 }

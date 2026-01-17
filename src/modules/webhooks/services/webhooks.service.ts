@@ -1,15 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { FlowManagerService } from 'src/modules/core/services/flow-manager.service';
+import { ConversationOrchestrator } from 'src/modules/core/services/conversationOrchestrator';
 
 @Injectable()
 export class WebhooksService {
-  constructor(private readonly flowManager: FlowManagerService) {}
+  constructor(
+    private readonly conversationOrchestrator: ConversationOrchestrator,
+  ) {}
 
   async whatsappHandlerMessage(message: any) {
-    return this.flowManager.initFlow(message.from, message.text);
+    // return this.flowManager.initFlow(message.from, message.text);
   }
 
   async webHandlerMessage(userId: string, message: string) {
-    return this.flowManager.initFlow(userId, message);
+    return this.conversationOrchestrator.handleMessage(userId, message);
   }
 }

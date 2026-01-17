@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { BusinessService } from 'src/modules/business/services/business.service';
+import { SessionEntities } from 'src/modules/firebase/models/sessions.model';
 import { LlmService } from 'src/modules/llm/services/llm.service';
 
 @Injectable()
@@ -19,11 +20,21 @@ export class IntentDetectorService {
   //       - Cuando pregunten sobre la empresa o información muy general responde con GENERAL_INFORMATION
   //   `;
 
-  async detect(message: string): Promise<string> {
-    const systemPrompt = this.businessService.getIntentSelectorPrompt();
+  async detect(
+    message: string,
+    businessConfig,
+  ): Promise<{
+    intent: string;
+    entities: SessionEntities;
+  }> {
+    const systemPrompt = businessConfig.prompts.INTENT_SELECTOR.replace(
+      '{{intents}}',
+      Object.keys(businessConfig.intents).join(', '),
+    );
     const userMessage = { role: 'user', content: message };
     const systemPromptObj = { role: 'system', content: systemPrompt };
-    const query = await this.llmService.chat([systemPromptObj, userMessage]);
-    return query;
+    const response = await this.llmService.chat([systemPromptObj, userMessage]);
+    console.log('Intent detected', response);
+    return JSON.parse(response);
   }
 }

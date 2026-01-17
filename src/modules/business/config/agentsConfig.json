@@ -1,0 +1,79 @@
+{
+  "agentType": "default",
+  "name": "Agente Default",
+  "businessDescription": "Somos un spa de uñas que presta sus servicios en bucaramanga. Con más de 10 años de experiencia. Arreglo de cabello y cejas.",
+  "locations": [
+    {
+      "name": "Bucaramanga",
+      "isDefault": true,
+      "schedule": {
+        "monday": "9am – 12m / 1pm – 5pm",
+        "tuesday": "9am – 12m / 1pm – 5pm",
+        "wednesday": "9am – 12m / 1pm – 5pm",
+        "thursday": "9am – 12m / 1pm – 5pm",
+        "friday": "9am – 12m / 1pm – 2pm",
+        "saturday": "10am – 1pm",
+        "sunday": "Cerrado"
+      },
+      "services": [
+        "Manicura básica",
+        "Pedicura spa",
+        "Manicura con gel / semipermanente",
+        "Uñas acrílicas o de gel",
+        "Decoración de uñas"
+      ]
+    }
+  ],
+  "prompts": {
+    "INTENT_SELECTOR": "Detecta la intención del usuario basándote en el contexto del negocio. Extrae las entidades de la pregunta y responde en formato json: {\"intent\":\"...\", \"entities\": {\"location\": \"...\", \"service\": \"...\"}}\n\nContexto del negocio: {{businessDescription}}\n\nIntenciones posibles: {{intents}}\nCuando te saluden, simplemente responde con WELCOME\nSi no conoces la intencion, responde con UNKNOWN",
+    "UNKNOWN": "Eres un asistente de atención al cliente {{businessDescription}}.\n\nReglas:\n- No inventes información.\n- Usa solo la información proporcionada.\n- Si la pregunta no es clara, pide aclaración.\n- Responde en español, tono amable y profesional.\n- Responde máximo con 20 tokens\n\nInformación del negocio: {{businessInformation}}",
+    "WELCOME": "Hola, soy el asistente de atencion al cliente de un spa de belleza.",
+    "BUSINESS_HOURS": "",
+    "BUSINESS_LOCATIONS": "Estas son nuestras sedes: {{data}}",
+    "BUSINESS_SERVICES": "Estos son nuestros servicios: {{data}}",
+    "FALLBACK": "Eres un asistente de un spa de belleza. El usuario preguntó por un servicio o sede inexistente. Si no menciona la sede, pide la sede.Nuestras Sedes: Bucaramanga. Nuestros Servicios: manicure, pedicure, tratamientos de belleza. Responde amablemente y sin inventar datos. Máximo 20 tokens."
+  },
+  "flows": {},
+  "intents": {
+    "WELCOME": {
+      "prompt": "WELCOME_PROMPT",
+      "contextNeeds": ["BUSINESS_DESCRIPTION"],
+      "rules": {
+        "allowDefaultLocation": false,
+        "requiredLocation": false,
+        "requiredService": false
+      },
+      "fallback": null
+    },
+    "BUSINESS_HOURS": {
+      "prompt": "BUSINESS_HOURS_PROMPT",
+      "contextNeeds": ["PRIMARY_LOCATION", "PRIMARY_LOCATION_HOURS"],
+      "rules": {
+        "allowDefaultLocation": true,
+        "requiredLocation": false,
+        "requiredService": false
+      },
+      "fallback": "DEFAULT_HOURS"
+    },
+    "BUSINESS_LOCATIONS": {
+      "prompt": "BUSINESS_LOCATIONS_PROMPT",
+      "contextNeeds": ["BUSINESS_LOCATIONS"],
+      "rules": {
+        "allowDefaultLocation": false,
+        "requiredLocation": false,
+        "requiredService": false
+      },
+      "fallback": "DEFAULT_HOURS"
+    },
+    "BUSINESS_SERVICES": {
+      "prompt": "BUSINESS_SERVICES_PROMPT",
+      "contextNeeds": ["PRIMARY_LOCATION", "PRIMARY_LOCATION_SERVICES"],
+      "rules": {
+        "allowDefaultLocation": false,
+        "requiredLocation": false,
+        "requiredService": false
+      },
+      "fallback": "DEFAULT_HOURS"
+    }
+  }
+}

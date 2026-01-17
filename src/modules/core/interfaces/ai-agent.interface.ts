@@ -1,5 +1,7 @@
-import { Session } from 'src/modules/firebase/models/sessions.model';
+import { AgentContext } from './agent-context.interface';
 
 export interface AiAgent {
-  runAgent(agent: string, session: Session, message: string): Promise<string>;
+  initialize(context: AgentContext): Promise<void>;
+  runAgent(message: string): Promise<string>;
+  reply(message: string, context: any): Promise<string>;
 }

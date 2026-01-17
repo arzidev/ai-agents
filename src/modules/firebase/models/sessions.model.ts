@@ -1,20 +1,23 @@
-export interface Step {
-  step: number;
-  action: string;
-  userMessage?: string;
-  agentMessage?: string;
-  timestamp: Date;
+export interface SessionEntities {
+  location?: string;
+  service?: string;
+  day?: string;
+  time?: string;
+}
+
+export interface SessionContext {
+  agentType: string;
+  flow?: string;
+  intent: string;
+  step?: string;
+  entities: SessionEntities;
 }
 
 export class Session {
   id?: string;
   userId: string;
-  currentIntent: string;
-  currentStep: number;
-  steps: Step[];
-  context: {
-    [key: string]: any;
-  };
+  businessId: string;
+  context: SessionContext;
   createdAt: number;
   updatedAt: number;
 }

@@ -11,25 +11,27 @@ export class SessionService {
     private readonly sessionRepository: SessionRepository,
   ) {}
 
-  async getOrCreate(userId: string): Promise<Session | undefined> {
+  async getOrCreate(
+    userId: string,
+    contextData?: any,
+  ): Promise<Session | undefined> {
     let session = await this.sessionRepository.getSessionData(userId);
     if (session) return session;
-
-    session = await this.sessionRepository.createSession(
-      userId,
-      INITIAL_INTENT,
-    );
+    session = await this.sessionRepository.createSession(userId, contextData);
     return session;
   }
 
   async save(session: Session) {
-    await this.sessionRepository.setCurrentIntent(
+    const contextToSave = {
+      agentType: session.context.agentType,
+      flow: session.context.flow,
+      intent: session.context.intent,
+      step: session.context.step,
+      entities: session.context.entities,
+    };
+    await this.sessionRepository.updateContext(
       session.id as string,
-      session.currentIntent,
+      contextToSave,
     );
-  }
-
-  async setStep(sessionId: string, step: number) {
-    await this.sessionRepository.setStep(sessionId, step);
   }
 }
