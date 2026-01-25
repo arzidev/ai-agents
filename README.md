@@ -1,98 +1,199 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🤖 AI Agent System - Orquestador de Conversaciones con IA
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+> ⚠️ **Estado del Proyecto**: En desarrollo activo | Versión Alpha
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Sistema inteligente de orquestación de agentes de IA que integra múltiples LLMs con WhatsApp para automatizar conversaciones y gestionar flujos de negocio complejos.
 
-## Description
+## 📋 Descripción
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Plataforma de automatización conversacional que combina NestJS, OpenAI/LocalAI y Twilio para crear asistentes virtuales que responden consultas de negocio a través de WhatsApp.
 
-## Project setup
+**Funcionalidad actual:**
 
-```bash
-$ yarn install
+- ✅ Detección automática de intenciones del usuario
+- ✅ Respuestas inteligentes basadas en información del negocio (sedes, servicios, horarios)
+- ✅ Gestión de sesiones de usuario con contexto persistente
+- ✅ Integración con múltiples proveedores de LLM (OpenAI, LocalAI)
+- ✅ Persistencia de conversaciones en Firestore
+- ✅ Sistema modular de agentes especializados
+
+## 🏗️ Arquitectura y Diseño
+
+### Patrones Implementados
+
+- **Factory Pattern**: Creación dinámica de agentes especializados
+- **Adapter Pattern**: Abstracción de proveedores LLM (OpenAI, LocalAI)
+- **State Machine**: Gestión de flujos conversacionales complejos
+- **Repository Pattern**: Acceso a datos con Firestore
+- **Dependency Injection**: Arquitectura modular con NestJS
+
+### Estructura Modular
+
+```
+├── Core Module          → Orquestador, agentes, flujos, detección de intenciones
+├── LLM Module           → Adaptadores para OpenAI/LocalAI (extensible)
+├── Webhooks Module      → Integración con Twilio (WhatsApp/SMS)
+├── Firebase Module      → Persistencia con Firestore
+└── Business Module      → Configuración de agentes y reglas de negocio
 ```
 
-## Compile and run the project
+## 🚀 Stack Tecnológico
+
+**Backend & Framework**
+
+- NestJS 11.0 (TypeScript)
+- Node.js
+- Docker
+
+**Inteligencia Artificial**
+
+- OpenAI API (GPT-4)
+- LocalAI (modelos locales)
+- NLP para detección de intenciones
+
+**Integraciones**
+
+- Twilio (WhatsApp, SMS)
+- Firebase/Firestore (base de datos)
+
+**Herramientas**
+
+- ESLint, Prettier (calidad de código)
+- Jest (testing)
+
+## 🎯 Funcionalidades Destacadas
+
+### 1. Detección Inteligente de Intenciones
+
+Sistema que analiza mensajes del usuario y determina:
+
+- Tipo de consulta (horarios, ubicaciones, servicios, precios)
+- Agente apropiado para responder
+- Contexto de la conversación
+
+### 2. Sistema de Agentes Especializados
+
+Factory que crea agentes según el contexto:
+
+- **Business Agent**: Responde con información del negocio configurada
+- **Default Agent**: Conversaciones generales y FAQ
+- Arquitectura extensible para nuevos tipos de agentes
+
+### 3. Gestión de Contexto Conversacional
+
+Sistema que mantiene:
+
+- Historial de conversación por usuario
+- Sesiones persistentes en Firestore
+- Metadata y preferencias del usuario
+
+### 4. Adaptadores Intercambiables de LLM
+
+Abstracción que permite cambiar fácilmente entre:
+
+- OpenAI (GPT-4)
+- LocalAI (modelos locales)
+- Cualquier otro proveedor (extensible)
+
+## 📦 Instalación y Ejecución
 
 ```bash
-# development
-$ yarn run start
+# Instalar dependencias
+yarn install
 
-# watch mode
-$ yarn run start:dev
+# Configurar variables de entorno
+cp .env.example .env
 
-# production mode
-$ yarn run start:prod
+# Ejecutar en desarrollo
+yarn start:dev
+
+# Ejecutar en producción
+yarn build && yarn start:prod
+
+# Docker
+docker build -t ai-agents .
+docker run -p 3000:3000 ai-agents
 ```
 
-## Run tests
+### Variables de Entorno Requeridas
+
+```env
+PORT=3000
+OPENAI_API_KEY=your_key
+TWILIO_ACCOUNT_SID=your_sid
+TWILIO_AUTH_TOKEN=your_token
+FIREBASE_PROJECT_ID=your_project
+```
+
+## 🔄 Flujo de Conversación
+
+```
+Usuario (WhatsApp)
+    ↓
+Twilio Webhook
+    ↓
+Conversation Orchestrator
+    ├─ Session Service (recupera/crea sesión)
+    ├─ Intent Detector (identifica intención)
+    ├─ Agent Factory (selecciona agente apropiado)
+    └─ LLM Adapter (genera respuesta contextual)
+    ↓
+Firestore (persiste estado)
+    ↓
+Usuario recibe respuesta
+```
+
+## 💡 Casos de Uso Implementados
+
+- **Detección de Intenciones**: Identifica automáticamente qué busca el usuario
+- **Consultas de Información**: Horarios de atención, ubicaciones de sedes, servicios disponibles
+- **Respuestas Contextuales**: El LLM responde basándose en la configuración del negocio
+- **FAQ Automatizado**: Respuestas inteligentes a preguntas frecuentes
+- **Persistencia de Conversaciones**: Historial completo guardado en Firestore
+
+## 🧪 Testing
 
 ```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+yarn test          # Tests unitarios
+yarn test:e2e      # Tests end-to-end
+yarn test:cov      # Cobertura
 ```
 
-## Deployment
+## 📊 Resultados Técnicos
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+- ✅ Arquitectura modular y escalable con NestJS
+- ✅ Diseño orientado a interfaces (SOLID principles)
+- ✅ Adaptadores intercambiables de LLM
+- ✅ Gestión de estado con máquinas de estados
+- ✅ Persistencia en tiempo real con Firestore
+- ✅ Dockerizado para despliegue en cualquier plataforma
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## 🚧 En Desarrollo
 
-```bash
-$ yarn install -g @nestjs/mau
-$ mau deploy
-```
+### Funcionalidades actuales
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+- ✅ Sistema de agentes con Factory Pattern
+- ✅ Integración WhatsApp vía Twilio
+- ✅ Detección automática de intenciones
+- ✅ Respuestas contextuales basadas en información del negocio
+- ✅ Gestión de sesiones y contexto
+- ✅ Persistencia en Firestore
+- ✅ Adaptadores para OpenAI y LocalAI
 
-## Resources
+### Próximas implementaciones
 
-Check out a few resources that may come in handy when working with NestJS:
+- 🔄 **Flujos conversacionales complejos**: Máquinas de estado para procesos multi-paso (agendamiento, formularios)
+- 🔄 **Extracción estructurada de datos**: Captura y validación de información específica de mensajes
+- 🔄 **Validación de entidades**: Nombres, fechas, números de teléfono, emails
+- 🔄 Dashboard web de administración y configuración
+- 🔄 Métricas y analytics de conversaciones
+- 🔄 Sistema de escalamiento a agentes humanos
+- 🔄 Integración con más plataformas (Telegram, Discord)
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## 📄 Licencia
 
-## Support
+MIT License - Copyright (c) 2025 arzidev
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+---
 
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+**Desarrollado por**: [arzidev](https://github.com/arzidev)
